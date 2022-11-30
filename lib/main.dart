@@ -3,9 +3,21 @@
 import 'package:flutter/material.dart';
 import 'package:ministry_of_commerce/paragraph_ltd.dart';
 import 'package:ministry_of_commerce/splash_screen.dart';
+import 'package:ministry_of_commerce/view_model/auth_vm.dart';
+import 'package:ministry_of_commerce/widget/getit.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await setup();
+
+  runApp(
+    MultiProvider(
+      providers:[
+        ChangeNotifierProvider(create: (_) => AuthVm()),
+      ],
+      child: MyApp(),
+    )
+    );
 }
 
 class MyApp extends StatelessWidget {
