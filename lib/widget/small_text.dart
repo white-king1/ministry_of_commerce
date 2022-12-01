@@ -7,7 +7,9 @@ double size;
   final String text;
   final Color color;
 
- SmallText({Key? key, this.size = 10, required this.text, this.color = Colors.blue, required FontWeight fontWeight})
+ SmallText({Key? key, 
+ this.size = 10, 
+ required this.text, this.color = Colors.blue, required FontWeight fontWeight})
    :super(key: key);
 
   @override

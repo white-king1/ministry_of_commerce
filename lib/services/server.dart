@@ -2,13 +2,13 @@
 
 import 'dart:convert';
 import 'dart:io';
-
 import '../widget/getit.dart';
 import 'local_storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class Server {
-  final _url = "https://dummyjson.com/docs/auth";
+  final _url = "https://dummyjson.com";
+  
   String? token;
 
   _getToken() async {
@@ -41,8 +41,7 @@ class Server {
   }
 
   _setHeaders() => {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token'
       };
 }

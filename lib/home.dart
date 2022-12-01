@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:ministry_of_commerce/business_places.dart';
 import 'package:ministry_of_commerce/paragraph_ltd.dart';
+import 'package:ministry_of_commerce/view_model/products_vm.dart';
 import 'package:ministry_of_commerce/widget/big_text.dart';
 import 'package:ministry_of_commerce/widget/colors.dart';
+import 'package:provider/provider.dart';
 
 import 'dashboard.dart';
+import 'models/products_response.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -85,7 +88,7 @@ class _HomeState extends State<Home> {
                   Text(
                     'Dashboard',
                     style:
-                        TextStyle(color: AppColors.greyColor, fontSize: 10.0),
+                        TextStyle(color: AppColors.greyColor, fontSize: 14.0),
                   ),
                   BigText(
                     text: 'Overview',
@@ -102,10 +105,9 @@ class _HomeState extends State<Home> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => BusinessPlaces()
-                            ),
-                            );
+                        MaterialPageRoute(
+                            builder: (context) => BusinessPlaces()),
+                      );
                     },
                     // ignore: sort_child_properties_last
                     child: BigText(
@@ -226,6 +228,12 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: AppColors.notebColor,
+                            blurRadius: 10,
+                            offset: Offset(0, 4))
+                      ],
                     ),
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -240,6 +248,12 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 color: AppColors.noteaColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: AppColors.notebColor,
+                                      blurRadius: 10,
+                                      offset: Offset(0, 4))
+                                ],
                               ),
                               child: Icon(
                                 Icons.description,
@@ -271,6 +285,12 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: AppColors.listviewColor,
+                            blurRadius: 10,
+                            offset: Offset(0, 4))
+                      ],
                     ),
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -285,6 +305,13 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 color: AppColors.listviewColor,
+                                // ignore: prefer_const_literals_to_create_immutables
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: AppColors.listviewColor,
+                                      blurRadius: 10,
+                                      offset: Offset(0, 4))
+                                ],
                               ),
                               child: Icon(
                                 Icons.home,
@@ -317,6 +344,13 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.white,
                       // ignore: prefer_const_literals_to_create_immutables
+                      boxShadow: [
+                        BoxShadow(
+                            color: AppColors.greenColor,
+                            blurRadius: 10,
+                            offset: Offset(0, 4))
+                      ],
+                      // ignore: prefer_const_literals_to_create_immutables
                     ),
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -331,6 +365,13 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 color: AppColors.greenColor,
+                                // ignore: prefer_const_literals_to_create_immutables
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: AppColors.greenColor,
+                                      blurRadius: 10,
+                                      offset: Offset(0, 4))
+                                ],
                               ),
                               child: Icon(
                                 Icons.group,
@@ -387,303 +428,48 @@ class _HomeState extends State<Home> {
               indent: 0.1,
               endIndent: 0.1,
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
+            FutureBuilder(
+              future: Provider.of<ProductsVm>(context, listen: false)
+                  .getProducts(context),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator.adaptive(),
                   );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
+                } else if (snapshot.hasData) {
+                  ProductsResponse res = snapshot.data;
+                  List<Products>? products = res.products;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: products?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Products product = products![index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ParagraphLtd(product: product)));
+                        },
+                        child: ListTile(
+                          title: BigText(
+                            text: '${product.title}',
+                            fontWeight: FontWeight.bold,
+                            size: 16,
+                            color: Colors.black,
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                      );
+                    },
                   );
+                } else {
+                  return Text('Something went wrong');
+                }
               },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
             ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
-                  );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
-                  );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
-                  );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
-                  );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
-                  );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context)=>ParagraphLtd()
-                    )
-                  );
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 20, right: 10, left: 10),
-                height: 50,
-                width: 450,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      'Paragraph Ltd',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                    SizedBox(
-                      width: 300,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.greyColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              indent: 0.1,
-              endIndent: 0.1,
-            ),
-            
             SizedBox(height: 50),
           ],
         ),

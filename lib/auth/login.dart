@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, non_constant_identifier_names, must_call_super, prefer_const_constructors, deprecated_member_use, unnecessary_new, avoid_unnecessary_containers, avoid_single_cascade_in_expression_statements, library_private_types_in_public_api
+// ignore_for_file: unused_field, non_constant_identifier_names, must_call_super, prefer_const_constructors, deprecated_member_use, unnecessary_new, avoid_unnecessary_containers, avoid_single_cascade_in_expression_statements, library_private_types_in_public_api, unused_import
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -164,18 +164,17 @@ class _LoginState extends State<Login> {
                         child: Container(
                           // ignore: sort_child_properties_last
                           child: ElevatedButton(
-                            onPressed: () {
-                              auth.login(context);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Dashboard()));
-                              Flushbar(
-                                title: "You",
-                                message: "are Successfully logged in",
-                                duration: Duration(seconds: 3),
-                              )..show(context);
+                            onPressed: () =>{
+                              // auth.login(context)
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context)=> Dashboard(),)
+                                )
                             },
                             // ignore: sort_child_properties_last
-                            child: BigText(
+                            child:
+                            auth.loading == true?
+                            Text('Loading. .......')
+                             :BigText(
                               text: "Login",
                               color: Colors.white,
                               fontWeight: FontWeight.normal,

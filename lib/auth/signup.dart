@@ -60,9 +60,9 @@ class _SignupState extends State<Signup> {
                   height: 50,
                 ),
                 BigText(
+                  text: 'Create An Acoount',
                     color: AppColors.greyColor,
                     size: 14,
-                    text: 'Create An Acoount',
                     fontWeight: FontWeight.normal),
                 SizedBox(
                   height: 30,

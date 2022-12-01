@@ -1,7 +1,5 @@
 class LoginResponse {
-// REVIEW THIS BELOW
-  bool? success;
-  LoginResponse? user;
+  
   final int? id;
   final String? username;
   final String? email;

@@ -1,11 +1,13 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, unnecessary_new, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, duplicate_ignore, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, unnecessary_new, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, duplicate_ignore, sized_box_for_whitespace, non_constant_identifier_names, unnecessary_string_escapes, unnecessary_string_interpolations, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:ministry_of_commerce/models/products_response.dart';
 import 'package:ministry_of_commerce/widget/big_text.dart';
 import 'package:ministry_of_commerce/widget/colors.dart';
 
 class ParagraphLtd extends StatefulWidget {
-  const ParagraphLtd({Key? key}) : super(key: key);
+  Products product;
+  ParagraphLtd({Key? key, required this.product}) : super(key: key);
 
   @override
   _ParagraphLtdState createState() => _ParagraphLtdState();
@@ -116,7 +118,7 @@ class _ParagraphLtdState extends State<ParagraphLtd> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BigText(
-                        text: "Paragraph Limited",
+                        text: "${widget.product.title}",
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
                         size: 24,
@@ -152,7 +154,7 @@ class _ParagraphLtdState extends State<ParagraphLtd> {
                         height: 15,
                       ),
                       Text(
-                        "ID: MCI-23-02-00001",
+                        "ID:${widget.product.id}: MCI-23-02-00001",
                         style: TextStyle(
                           color: AppColors.infosecColor,
                           fontSize: 12,
@@ -194,7 +196,9 @@ class _ParagraphLtdState extends State<ParagraphLtd> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 20,
+                  ),
                   ElevatedButton(
                     onPressed: () {},
                     // ignore: sort_child_properties_last
@@ -217,81 +221,85 @@ class _ParagraphLtdState extends State<ParagraphLtd> {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
+            Image.network(('${widget.product.thumbnail}')),
             Container(
-             padding: EdgeInsets.only(top: 20, right: 10, left: 10),
+              padding: EdgeInsets.only(top: 20, right: 10, left: 10),
               margin: EdgeInsets.only(bottom: 0),
-              width: 450,
-              height: 350,
+              width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 color: Color.fromARGB(183, 255, 255, 255),
               ),
-             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Address',
-                  style: TextStyle(fontSize: 12,color: AppColors.greyColor),
-                ),
-                SizedBox(height: 5,),
-                BigText(
-                  text: '14 Ogboko Stret, Mgbuoba Obio-Akpor', 
-                  fontWeight: FontWeight.bold,
-                   color: AppColors.blackColor,
-                   size: 16,
-                  ),
-                  SizedBox(height: 20,),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                  'L.G.A',
-                  style: TextStyle(fontSize: 12,color: AppColors.greyColor),
-                ),
-                SizedBox(height: 5,),
-                BigText(
-                  text: 'Obio-Akpor', 
-                  fontWeight: FontWeight.bold,
-                   color: AppColors.blackColor,
-                   size: 16,
+                    'Description: ${widget.product.description}',
+                    style: TextStyle(fontSize: 16, color: AppColors.greyColor),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  BigText(
+                    text: 'Price: \$${widget.product.price}',
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.blackColor,
+                    size: 16,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
-                  'Ward',
-                  style: TextStyle(fontSize: 12,color: AppColors.greyColor),
-                ),
-                SizedBox(height: 5,),
-                BigText(
-                  text: 'Obio-Akpor', 
-                  fontWeight: FontWeight.bold,
-                   color: AppColors.blackColor,
-                   size: 16,
+                    'DiscountPercentage: \%${widget.product.discountPercentage}',
+                    style: TextStyle(fontSize: 16, color: AppColors.greyColor),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  BigText(
+                    text: 'Rating: ${widget.product.rating}',
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.blackColor,
+                    size: 16,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
-                  'Phone',
-                  style: TextStyle(fontSize: 12,color: AppColors.greyColor),
-                ),
-                SizedBox(height: 5,),
-                BigText(
-                  text: '07084924811', 
-                  fontWeight: FontWeight.bold,
-                   color: AppColors.blackColor,
-                   size: 16,
+                    'Stock: ${widget.product.stock}',
+                    style: TextStyle(fontSize: 16, color: AppColors.greyColor),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  BigText(
+                    text: 'Brand: ${widget.product.brand}',
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.blackColor,
+                    size: 16,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
-                  'Email',
-                  style: TextStyle(fontSize: 12,color: AppColors.greyColor),
-                ),
-                SizedBox(height: 5,),
-                BigText(
-                  text: 'Kelechivctorn@gmail.com', 
-                  fontWeight: FontWeight.bold,
-                   color: AppColors.blackColor,
-                   size: 16,
+                    'Category: ${widget.product.category}',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.greyColor,
+                        fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(height: 40,),
-              ],
-             ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Image.network(('${widget.product.images![0]}')),
+                  SizedBox(
+                    height: 40,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 50),
           ],

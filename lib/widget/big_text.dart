@@ -7,7 +7,7 @@ class BigText extends StatelessWidget {
   final String text;
   final Color color;
 
-  BigText(
+  BigText(  
       {Key? key,
       this.size = 20,
       required this.text,
