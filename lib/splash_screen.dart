@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:ministry_of_commerce/auth/login.dart';
 import 'package:ministry_of_commerce/widget/colors.dart';
 
 import 'onboarding.dart';
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Onboarding(),
+            builder: (context) => Login(),
           ));
     });
   }

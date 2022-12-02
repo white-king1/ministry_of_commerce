@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ministry_of_commerce/businesses.dart';
 import 'package:ministry_of_commerce/paragraph_ltd.dart';
 import 'package:ministry_of_commerce/view_model/products_vm.dart';
 import 'package:ministry_of_commerce/widget/big_text.dart';

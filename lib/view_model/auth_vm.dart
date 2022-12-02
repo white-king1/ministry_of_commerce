@@ -33,16 +33,18 @@ class AuthVm extends ChangeNotifier {
     final response = await server.authData(
         {'username': email.text, 'password': password.text}, "/auth/login");
 
-    print("ll");
-    print(response.body);
-    return;
-
     final Map<String, dynamic> parsed = json.decode(response.body);
     final result = LoginResponse.fromJson(parsed);
     print(parsed);
-    if (result.id == true) {
+    if (result.token != null) {
       Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => Dashboard())));
+          context, MaterialPageRoute(builder: ((context) => Home())));
+    }else{
+      Flushbar(
+        title: "Oops",
+        message: "Incorrect credentials",
+        duration: Duration(seconds: 3),
+      )..show(context);
     }
     loading = false;
     notifyListeners();

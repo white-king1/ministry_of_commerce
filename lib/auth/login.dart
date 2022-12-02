@@ -165,10 +165,10 @@ class _LoginState extends State<Login> {
                           // ignore: sort_child_properties_last
                           child: ElevatedButton(
                             onPressed: () =>{
-                              // auth.login(context)
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context)=> Dashboard(),)
-                                )
+                              auth.login(context)
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(builder: (context)=> Dashboard(),)
+                              //   )
                             },
                             // ignore: sort_child_properties_last
                             child:
